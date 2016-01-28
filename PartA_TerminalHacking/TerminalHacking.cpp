@@ -7,6 +7,24 @@
 const int wordLength = 5;
 const int numberOfWords = 15;
 
+
+int checkLikeness(std::string guessedWord, std::string secretWord)
+{
+	int result = 0;
+	for (int i = 0; i < secretWord.length(); i++)
+	{
+		std::cout << guessedWord[i] << secretWord[i] << std::endl;
+		if (secretWord[i] == guessedWord[i])
+		{
+			
+			result++;
+		}
+	}
+	std::cout << result << std::endl;
+
+	return result;
+}
+
 int main()
 {
 	// Seed the random number generator with the current time,
@@ -40,6 +58,9 @@ int main()
 	}
 
 	// TODO: implement the rest of the game
+
+	int result = checkLikeness("EEEEE", secret);
+	std::cout << result << std::endl;
 
     return 0;
 }
