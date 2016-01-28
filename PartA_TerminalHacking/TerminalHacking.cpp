@@ -10,20 +10,48 @@ const int numberOfWords = 15;
 
 int checkLikeness(std::string guessedWord, std::string secretWord)
 {
-	int result = 0;
+	int likeness = 0;
 	for (int i = 0; i < secretWord.length(); i++)
 	{
-		std::cout << guessedWord[i] << secretWord[i] << std::endl;
 		if (secretWord[i] == guessedWord[i])
 		{
-			
-			result++;
+			likeness++;
 		}
 	}
-	std::cout << result << std::endl;
-
-	return result;
+	return likeness;
 }
+
+std::string getGuess(std::set<std::string> options)
+{
+	bool validGuess = false;
+
+	while (true)
+	{
+		std::cout << "Enter your guess!" << std::endl;
+		std::string line;
+		std::getline(std::cin, line);
+
+		// Convert guess to upper case
+		for (int i = 0; i < line.length(); i++)
+		{
+			if (isalpha(line[i]))
+			{
+				line[i] = toupper(line[i]);
+			}
+		}
+
+		// Compare the guess with the options
+		for each (std::string word in options)
+		{
+			if (word == line)
+			{
+				return line;
+			}
+		}
+		std::cout << "Invalid guess!" << std::endl;
+	}
+}
+
 
 int main()
 {
@@ -58,9 +86,27 @@ int main()
 	}
 
 	// TODO: implement the rest of the game
+	int lives = 4;
 
-	int result = checkLikeness("EEEEE", secret);
-	std::cout << result << std::endl;
+	do
+	{
+		std::string guess = getGuess(options);
+		if (guess == secret)
+		{
+			std::cout << "You win!" << std::endl;
+			break;
+		}
+		else
+		{
+			int likeness = checkLikeness(guess, secret);
+			std::cout << "Likeness: " << likeness << std::endl;
+			lives--;
+			std::cout << lives << " lives remaining!" << std::endl;
+		}
+	} while (lives > 0);
+	
+	if (lives <= 0)
+		std::cout << "You lose!" << std::endl;
 
     return 0;
 }
