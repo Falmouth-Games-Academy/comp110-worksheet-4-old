@@ -5,7 +5,8 @@
 #include "WordList.h"
 
 const int wordLength = 5;
-const int numberOfWords = 15;
+const int numberOfWords = 15; 
+const int guaranteedNumberOfLikeWords = 5;
 
 
 int checkLikeness(std::string guessedWord, std::string secretWord)
@@ -21,35 +22,67 @@ int checkLikeness(std::string guessedWord, std::string secretWord)
 	return likeness;
 }
 
-std::string getGuess(std::set<std::string> options)
+
+std::string getGuess(std::set<std::string> validOptions)
 {
 	bool validGuess = false;
 
 	while (true)
 	{
-		std::cout << "Enter your guess!" << std::endl;
-		std::string line;
-		std::getline(std::cin, line);
-
+		std::cout << "\nEnter your guess!" << std::endl;
+		std::string guess;
+		std::getline(std::cin, guess);
+		
 		// Convert guess to upper case
-		for (int i = 0; i < line.length(); i++)
-		{
-			if (isalpha(line[i]))
-			{
-				line[i] = toupper(line[i]);
-			}
-		}
+		std::transform(guess.begin(), guess.end(), guess.begin(), ::toupper);
 
 		// Compare the guess with the options
-		for each (std::string word in options)
+		for each (std::string word in validOptions)
 		{
-			if (word == line)
+			if (word == guess)
 			{
-				return line;
+				return guess;
 			}
 		}
 		std::cout << "Invalid guess!" << std::endl;
 	}
+}
+
+
+std::set<std::string> chooseWords(std::string secret)
+{
+	// Initialise word list
+	WordList words(wordLength);
+
+	// Create a set to hold the list of options
+	std::set<std::string> options;
+
+	// Put the secret word in the set
+	options.insert(secret);
+
+	int likeWords = 0;
+	while (options.size() < numberOfWords)
+	{
+		std::string word = words.getRandomWord();
+
+		// Ensure that the minimum number of words are like
+		if (likeWords < guaranteedNumberOfLikeWords)
+		{
+			int likeness = checkLikeness(word, secret);
+
+			// They are like if more than half of the letters match the secret
+			if (likeness > wordLength / 2)
+			{
+				options.insert(word);
+				likeWords++;
+			}
+
+		}
+		else
+			options.insert(word);
+	}
+
+	return options;
 }
 
 
@@ -65,19 +98,8 @@ int main()
 	// Choose secret word
 	std::string secret = words.getRandomWord();
 
-	// Create a set to hold the list of options
-	std::set<std::string> options;
-
-	// Put the secret word in the set
-	options.insert(secret);
-
-	// Fill the set with more words
-	// Using a set for options guarantees that the elements are all different
-	while (options.size() < numberOfWords)
-	{
-		std::string word = words.getRandomWord();
-		options.insert(word);
-	}
+	// Get list of word options
+	std::set<std::string> options = chooseWords(secret);
 
 	// Display all words
 	for each (std::string word in options)
@@ -85,9 +107,8 @@ int main()
 		std::cout << word << std::endl;
 	}
 
-	// TODO: implement the rest of the game
 	int lives = 4;
-
+	// Main game loop
 	do
 	{
 		std::string guess = getGuess(options);
