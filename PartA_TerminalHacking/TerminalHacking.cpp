@@ -7,6 +7,25 @@
 const int wordLength = 5;
 const int numberOfWords = 15;
 
+char getWord()
+{
+	while (true)
+	{
+		std::cout << "Enter a Word: ";
+		std::string line;
+		std::getline(std::cin, line);
+
+		if (line.length() == 5 && isalpha(line[0]))
+		{
+			return toupper(line[0]);
+		}
+		else
+		{
+			std::cout << "That's not a word!" << std::endl;
+		}
+	}
+}
+
 int main()
 {
 	// Seed the random number generator with the current time,
@@ -25,6 +44,9 @@ int main()
 	// Put the secret word in the set
 	options.insert(secret);
 
+	std::string line;
+	std::getline(std::cin, line) = guessed;
+
 	// Fill the set with more words
 	// Using a set for options guarantees that the elements are all different
 	while (options.size() < numberOfWords)
@@ -39,8 +61,48 @@ int main()
 		std::cout << word << std::endl;
 	}
 
-	// TODO: implement the rest of the game
+	int lives = 4;
 
+	while (true)
+	{
+		std::cout << secret << std::endl;
+		std::cout << "You have " << lives << " lives left" << std::endl;
+
+		char letter = getWord();
+		std::cout << "You entered " << letter << std::endl;
+
+		bool found = false;
+		for (int i = 0; i < secret.length(); i++)
+		{
+			if (secret[i] == letter)
+			{
+				secret[i] = letter;
+				found = true;
+			}
+		}
+
+		if (!found)
+		{
+			lives--;
+			if (lives <= 0)
+			{
+				std::cout << "You lose :( The word was " << secret << std::endl;
+				std::cin.ignore();
+				break;
+			}
+
+		if (guessed == secret)
+			{
+				std::cout << "You win!!! The word was " << secret << std::endl;
+				break;
+			}
+		}
+	}
+	// TODO: implement the rest of the game
+	// Have the program recognize the word you imput
+	// Have the program recognize how many leeters are similler between
+	// the word you typed and the requested word
+	// Give the player lives
+	// Winning conditions
     return 0;
 }
-
