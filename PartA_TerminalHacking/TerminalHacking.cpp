@@ -21,7 +21,7 @@ char getWord()
 		}
 		else
 		{
-			std::cout << "That's not a word!" << std::endl;
+			std::cout << "That is incorrect!" << std::endl;
 		}
 	}
 }
@@ -44,8 +44,8 @@ int main()
 	// Put the secret word in the set
 	options.insert(secret);
 
-	std::string line;
-	std::getline(std::cin, line) = guessed;
+	std::string guessed;
+	std::getline(std::cin, guessed);
 
 	// Fill the set with more words
 	// Using a set for options guarantees that the elements are all different
@@ -76,7 +76,7 @@ int main()
 		{
 			if (secret[i] == letter)
 			{
-				secret[i] = letter;
+				guessed[i] = letter;
 				found = true;
 			}
 		}
