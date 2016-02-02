@@ -23,13 +23,11 @@ int main()
 	// Generate the image
 	for (int pixelY = 0; pixelY < image.height(); pixelY++)
 	{
-		// TODO: Map the y coordinate into the range minY to maxY
-		//double y0 =
+		double y0 = (pixelY / image.height()) * (maxY - minY) + minY;
 
 		for (int pixelX = 0; pixelX < image.width(); pixelX++)
 		{
-			// TODO: Map the x coordinate into the range minX to maxX
-			//double x0 =
+			double x0 = (pixelX / image.width()) * (maxX - minX) + minX;
 
 			// TODO: implement the algorithm to colour a single pixel (x0, y0) of the Mandelbrot set fractal
 			Colour colour = { 0,0,0 };
