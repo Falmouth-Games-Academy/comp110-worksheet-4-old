@@ -4,15 +4,8 @@
 #include "stdafx.h"
 #include "colours.h"
 
-int main()
+void generate(CImg<unsigned char> &image)
 {
-	// Initialise the image
-	CImg<unsigned char> image(800, 800, 1, 3, 0);
-
-	// Display the image
-	CImgDisplay display(image, "Mandelbrot Set");
-
-	// Cutoff for iteration
 	const int maxIters = 200;
 
 	// Initialise the colour palette
@@ -23,24 +16,55 @@ int main()
 	// Generate the image
 	for (int pixelY = 0; pixelY < image.height(); pixelY++)
 	{
-		double y0 = (pixelY / image.height()) * (maxY - minY) + minY;
+		double y0 = (double(pixelY) / image.height()) * (maxY - minY) + minY;
 
 		for (int pixelX = 0; pixelX < image.width(); pixelX++)
 		{
-			double x0 = (pixelX / image.width()) * (maxX - minX) + minX;
+			double x0 = (double(pixelX) / image.width()) * (maxX - minX) + minX;
 
-			// TODO: implement the algorithm to colour a single pixel (x0, y0) of the Mandelbrot set fractal
-			Colour colour = { 0,0,0 };
+			// Initialise first term of the sequence
+			double memX = x0;
+			double memY = y0;
+			unsigned char i = 0;
+
+			while ((pow(memX, 2) + pow(memY, 2)) < 4 && i < maxIters)
+			{
+				double nextX = pow(memX, 2) - pow(memY, 2) + x0;
+				double nextY = (2 * memX * memY) + y0;
+
+				// Used checking this iteration and calculating the next
+				memX = nextX;
+				memY = nextY;
+
+				// To keep track of position in sequence
+				i++;
+			}
+
+			Colour colour;
+
+			if (i >= maxIters)
+				colour = { 0, 0, 0 };
+			else
+				colour = palette[i];
 
 			// Write the pixel
 			image(pixelX, pixelY, 0, 0) = colour.r;
 			image(pixelX, pixelY, 0, 1) = colour.g;
 			image(pixelX, pixelY, 0, 2) = colour.b;
 		}
-
-		// Uncomment this line to redisplay the image after each row is generated
-		//display.display(image);
 	}
+}
+
+int main()
+{
+	// Initialise the image
+	CImg<unsigned char> image(800, 800, 1, 3, 0);
+
+	// Display the image
+	CImgDisplay display(image, "Mandelbrot Set");
+
+	// Generate the image
+	generate(image);
 
 	// Display the complete image
 	display.display(image);
