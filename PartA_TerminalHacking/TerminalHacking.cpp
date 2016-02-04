@@ -8,21 +8,19 @@ const int wordLength = 5;
 const int numberOfWords = 15;
 
 std::string getWord()
-{ //Asks the user to enter a word and saves it to the varaible wordGuess, if no word is 
-		std::cout << "Enter a word: ";
+{ //Asks the user to enter a word and saves it to the varaible wordGuess, if no word is entered it will ask for one
+		//std::cout << "Enter a word: ";
 		std::string wordGuess;
-		std::getline(std::cin, wordGuess);
+		//std::getline(std::cin, wordGuess);
 
-		if (wordGuess.empty() == true)
+		while (wordGuess.empty() == true)
 		{
-			std::cout << "Please enter a word." << std::endl;
-			getWord();
-		}//End if
-		else
-		{
-			return wordGuess;
-		}//End else
-}
+			std::cout << "Enter a word: ";
+			std::getline(std::cin, wordGuess);
+		}//End while
+		return wordGuess;
+
+}//End getWord
 
 std::string checkGuess(std::string wordGuess, std::set<std::string> options)
 {
@@ -67,7 +65,8 @@ int main()
 
 	// Choose secret word
 	std::string secret = words.getRandomWord();
-
+	std::cout << secret << std::endl;
+	std::cout << secret << std::endl;
 	// Create a set to hold the list of options
 	std::set<std::string> options;
 
@@ -87,22 +86,33 @@ int main()
 	{
 		std::cout << word << std::endl;
 	}
+
+	//Sets lives to equal 4
 	int lives = 4;
-	std::string playerGuess = getWord();
-	if (playerGuess == secret)
+	//WORKING UPTO HERE
+	std::string guessWord = getWord();
+	std::cout << guessWord << std::endl;
+	/*
+	while (lives > 0)
 	{
-		std::cout << "You win" << std::endl;
-		std::cout << "The secret word was " << secret << std::endl;
+		std::string playerGuess = getWord();
+		if (playerGuess == secret)
+		{
+			std::cout << "You win" << std::endl;
+			std::cout << "The secret word was " << secret << std::endl;
+		}
+		else
+		{
+			std::cout << playerGuess << std::endl;
+			int guessLikeness = getLikeness(playerGuess, secret);
+			std::cout << guessLikeness << std::endl;
+			lives--;
+		}
 	}
-	else 
-	{
-		std::cout << playerGuess << std::endl;
-		int guessLikeness = getLikeness(playerGuess, secret);
-		std::cout << guessLikeness << std::endl;
-	}
-
+	std::cout << "You have 0 lives left. Game Over" << std::endl;
 	// TODO: implement the rest of the game
-
-    return 0;
+	*/
+	system("pause");
+	return 0;
 }
 
