@@ -30,10 +30,27 @@ int main()
 		{
 			// TODO: Map the x coordinate into the range minX to maxX
 			double x0 = (pixelX/image.width()) * (maxX - minX) + minX;
+			int i = 0;
+			double currentX = x0;
+			double currentY = y0;
+			
+			while (i < maxIters && (std::pow(currentX, 2) + std::pow(currentY, 2))>=4)
+			{
+				double nextX = std::pow(currentX, 2) - std::pow(currentY, 2) +x0;
+				double nextY = (2 * currentX * currentY) + y0;
 
-			Colour colour = { 255,0,0 };
+				currentX = nextX;
+				currentY = nextY;
+				
+				i++;
+			}
+			
+			//Colour colour = { 255,0,0 };
 			// TODO: implement the algorithm to colour a single pixel (x0, y0) of the Mandelbrot set fractal
 			
+			Colour colour = palette[i];
+
+
 			// Write the pixel
 			image(pixelX, pixelY, 0, 0) = colour.r;
 			image(pixelX, pixelY, 0, 1) = colour.g;
