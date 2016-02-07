@@ -6,6 +6,7 @@
 
 const int wordLength = 5;
 const int numberOfWords = 15;
+const int likeness = 1;  
 
 bool checkGuess(std::string wordGuess, std::set<std::string> options)
 {//Checks to see if the users guess is in the list of possible options
@@ -70,6 +71,7 @@ int main()
 
 	// Choose secret word
 	std::string secret = words.getRandomWord();
+	std::cout << secret << std::endl;
 
 	// Create a set to hold the list of options
 	std::set<std::string> options;
@@ -82,7 +84,11 @@ int main()
 	while (options.size() < numberOfWords)
 	{
 		std::string word = words.getRandomWord();
-		options.insert(word);
+		int wordLikeness = getLikeness(word, secret);
+		if (wordLikeness > likeness)
+		{
+			options.insert(word);
+		}
 	}
 
 	// Display all words
@@ -92,7 +98,7 @@ int main()
 	}
 
 	//Sets lives to equal 4
-	int lives = 4;
+	int lives = 10;
 	bool valid = false;
 	std::string guessWord;
 	
