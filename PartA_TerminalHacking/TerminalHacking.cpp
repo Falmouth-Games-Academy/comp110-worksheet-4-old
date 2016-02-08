@@ -4,8 +4,8 @@
 #include "stdafx.h"
 #include "WordList.h"
 
-const int wordLength = 4;
-const int numberOfWords = 10;
+const int wordLength = 5;
+const int numberOfWords = 15;
 
 std::string getWord()
 {
@@ -24,13 +24,28 @@ std::string getWord()
 
 }
 
+int getLikeness(std::string inputWord, std::string secretWord)
+{
+	int likeness = 0;
+
+	for (int i = 0; i < secretWord.length(); i++)
+	{
+		if (secretWord[i] == inputWord[i])
+		{
+			likeness++;
+		}
+	}
+	return likeness;
+}
+
+
 int main()
 {
 	// Seed the random number generator with the current time,
 	// to ensure different results each time the program is run
 	srand(static_cast<unsigned int>(time(nullptr)));
 
-	//Initialise lives and
+	// Initialise ammount of lives
 	int lives = 5;
 
 	// Initialise word list
@@ -56,32 +71,43 @@ int main()
 	// Display all words
 	for each (std::string word in options)
 	{
-		
 		std::cout << word << std::endl;
 	}
 	// TODO: implement the rest of the game
 
-	//Main game loop
+	// Main game loop
 	while (true) 
 	{
 		std::cout << "You have " << lives << " tries left." << std::endl;
 		std::string inputWord = getWord();
+
 		if (inputWord == secret)
 		{
+			std::cout << "CORRECT!" << std::endl;
+			return 0;
+		}
+
+		else
+		{
+			std::cout << "Incorrect Password, Please Try Again." << std::endl;
 			lives--;
+
 			if (lives <= 0)
 			{
 				std::cout << "Too many incorrect tries." << std::endl;
 				return 0;
 			}
 		}
-		else
-		{
-			std::cout << "wrong" << std::endl;
-		}
-	}
-	
 
+		// LIKELYNESS
+		for each(std::string word in options)
+		{
+			int likeness = getLikeness(inputWord, secret);
+			std::cout << "likeness is: " << likeness << std::endl;
+		}
+		
+		
+	}
 	
 
 	
