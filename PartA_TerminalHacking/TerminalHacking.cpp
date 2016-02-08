@@ -4,14 +4,34 @@
 #include "stdafx.h"
 #include "WordList.h"
 
-const int wordLength = 5;
-const int numberOfWords = 15;
+const int wordLength = 4;
+const int numberOfWords = 10;
+
+std::string getWord()
+{
+	std::cout << "Enter a word: ";
+	std::string line;
+	std::getline(std::cin, line);
+
+	if (line.length() == wordLength && isalpha(line[0]))
+	{
+		return line;
+	}
+	else
+	{
+		std::cout << "Word is not the correct length.";
+	}
+
+}
 
 int main()
 {
 	// Seed the random number generator with the current time,
 	// to ensure different results each time the program is run
 	srand(static_cast<unsigned int>(time(nullptr)));
+
+	//Initialise lives and
+	int lives = 5;
 
 	// Initialise word list
 	WordList words(wordLength);
@@ -36,10 +56,35 @@ int main()
 	// Display all words
 	for each (std::string word in options)
 	{
+		
 		std::cout << word << std::endl;
 	}
-
 	// TODO: implement the rest of the game
+
+	//Main game loop
+	while (true) 
+	{
+		std::cout << "You have " << lives << " tries left." << std::endl;
+		std::string inputWord = getWord();
+		if (inputWord == secret)
+		{
+			lives--;
+			if (lives <= 0)
+			{
+				std::cout << "Too many incorrect tries." << std::endl;
+				return 0;
+			}
+		}
+		else
+		{
+			std::cout << "wrong" << std::endl;
+		}
+	}
+	
+
+	
+
+	
 
     return 0;
 }
