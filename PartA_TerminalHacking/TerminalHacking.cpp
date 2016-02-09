@@ -1,4 +1,4 @@
-// PartA_TerminalHacking.cpp : Defines the entry point for the console application.
+﻿// PartA_TerminalHacking.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -6,24 +6,19 @@
 
 const int wordLength = 5;
 const int numberOfWords = 15;
+const int guaranteedNumberOfLikeWords = 5;
 
-char getWord()
+int getSimilarity(std::string guessedWord, std::string secretWord)
 {
-	while (true)
+	int similarity = 0;
+	for (int i = 0; i < secretWord.length(); i++)
 	{
-		std::cout << "Enter a Word: ";
-		std::string line;
-		std::getline(std::cin, line);
-
-		if (line.length() == 5 && isalpha(line[0]))
+		if (secretWord[i] == guessedWord[i])
 		{
-			return toupper(line[0]);
-		}
-		else
-		{
-			std::cout << "That is incorrect!" << std::endl;
+			similarity++;
 		}
 	}
+	return similarity;
 }
 
 int main()
@@ -44,9 +39,6 @@ int main()
 	// Put the secret word in the set
 	options.insert(secret);
 
-	std::string guessed;
-	std::getline(std::cin, guessed);
-
 	// Fill the set with more words
 	// Using a set for options guarantees that the elements are all different
 	while (options.size() < numberOfWords)
@@ -54,55 +46,61 @@ int main()
 		std::string word = words.getRandomWord();
 		options.insert(word);
 	}
-
+	
 	// Display all words
 	for each (std::string word in options)
 	{
 		std::cout << word << std::endl;
 	}
 
-	int lives = 4;
+	//set up the attempt count
+	int attempts = 4;
+	bool valid = false;
+	while (valid == false)
 
-	while (true)
 	{
-		std::cout << secret << std::endl;
-		std::cout << "You have " << lives << " lives left" << std::endl;
+		//Ask the player for a word
+		std::cout << "Enter a Word: ";
+		std::string guess;
+		std::cin >> guess;
 
-		char letter = getWord();
-		std::cout << "You entered " << letter << std::endl;
-
-		bool found = false;
-		for (int i = 0; i < secret.length(); i++)
+		for (int i = 0; i < guess.length(); i++)
 		{
-			if (secret[i] == letter)
+			if (isalpha(guess[i]))
 			{
-				guessed[i] = letter;
-				found = true;
+				//Changes the input to capitals
+				guess[i] = toupper(guess[i]);
+			}
+			else
+			{
+				std::cout << "Invalid Input" << std::endl;
 			}
 		}
+		
+		//Pull in the similarity function to check for similar characters
+		int similarity = getSimilarity(guess, secret);
+		std::cout << "You Entered:  " << guess << std::endl;
+		std::cout << "With a Similarity of: " << similarity << std::endl;
+		attempts--;
+		std::cout << "You have " << attempts << " Attempts left" << std::endl;
 
-		if (!found)
+		//For each guess a check is made for winning or loosing
+		for (int i = 0; i < secret.length(); i++)
 		{
-			lives--;
-			if (lives <= 0)
+			if (guess == secret)
 			{
-				std::cout << "You lose :( The word was " << secret << std::endl;
+				std::cout << "Access Granted" << secret << std::endl;
+				std::cin.ignore();
+				bool valid = true;
+			}
+		}
+			if (attempts <= 0)
+			{
+				std::cout << "Attempts Failed Self Destruct Iminent" << secret << std::endl;
 				std::cin.ignore();
 				break;
 			}
-
-		if (guessed == secret)
-			{
-				std::cout << "You win!!! The word was " << secret << std::endl;
-				break;
-			}
-		}
 	}
 	// TODO: implement the rest of the game
-	// Have the program recognize the word you imput
-	// Have the program recognize how many leeters are similler between
-	// the word you typed and the requested word
-	// Give the player lives
-	// Winning conditions
-    return 0;
+
 }
