@@ -49,7 +49,7 @@ int main()
 			int blue;
 			if (iteration < maxIters)
 			{
-				red = 0;
+				red = 30;
 				green = iteration;
 				blue = iteration;
 			}
