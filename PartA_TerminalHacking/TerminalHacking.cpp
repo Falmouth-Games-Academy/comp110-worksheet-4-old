@@ -11,7 +11,7 @@ const int numberOfWords = 15;
 int getLikeness(std::string guessedWord, std::string secretWord)
 {
 	int likeness = 0;
-	for (int i = 0; i != secretWord.length() - 1; i++)
+	for (int i = 0; i != secretWord.length(); i++)
 	{
 		if (secretWord[i] == guessedWord[i])
 		{
@@ -97,8 +97,8 @@ int main()
 					{
 						std::cout << "Locked out" << std::endl;
 						endState = true;
-						break;
 					}
+					break;
 				}
 			}
 		}
