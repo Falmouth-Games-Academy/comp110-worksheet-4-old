@@ -7,6 +7,8 @@
 const int wordLength = 5;
 const int numberOfWords = 15;
 
+// Get input from the user and check it is valid..
+// ..then convert the letters to uppercase.
 std::string getWord()
 {
 	std::cout << "Enter a word: ";
@@ -15,18 +17,25 @@ std::string getWord()
 
 	if (line.length() == wordLength && isalpha(line[0]))
 	{
+		for (int i = 0; i < line.length(); i++)
+		{
+			line[i] = toupper(line[i]);
+		}
 		return line;
 	}
+
 	else
 	{
-		std::cout << "Word is not the correct length.";
+		std::cout << "Password is not the correct length.";
 	}
 
 }
 
+// Calcualte the likeness between input word and secret word.
 int getLikeness(std::string inputWord, std::string secretWord)
 {
 	int likeness = 0;
+	
 
 	for (int i = 0; i < secretWord.length(); i++)
 	{
@@ -46,7 +55,7 @@ int main()
 	srand(static_cast<unsigned int>(time(nullptr)));
 
 	// Initialise ammount of lives
-	int lives = 5;
+	int lives = 4;
 
 	// Initialise word list
 	WordList words(wordLength);
@@ -99,17 +108,13 @@ int main()
 			}
 		}
 
-		// LIKELYNESS
+		// LIKENESS
 		for each(std::string word in options)
 		{
 			int likeness = getLikeness(inputWord, secret);
-			std::cout << "likeness is: " << likeness << std::endl;
+			std::cout << "likeness = " << likeness << std::endl;
 		}
-		
-		
 	}
-	
-
 	
 
     return 0;

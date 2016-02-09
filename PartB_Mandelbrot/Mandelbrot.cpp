@@ -4,16 +4,17 @@
 #include "stdafx.h"
 #include "colours.h"
 
-//Find the value for the mandelbrot set
+// Find the value for the mandelbrot set
+// using the escape time algorithm
 double FindValue(double cr, double ci, int maxIters)
 {
 	int i = 0;
-	double zr = 0.0, zi = 0.0;
-	while (i < maxIters && (zr * zr) + (zi * zi) <= 4.0)
+	double Xi = 0.0, Yi = 0.0;
+	while ((Xi * Xi) + (Yi * Yi) <= 2.0 && i < maxIters)
 	{
-		double temp = zr * zr - zi * zi + cr;
-		zi = 2.0 * zr * zi + ci;
-		zr = temp;
+		double temp = Xi * Xi - Yi * Yi + cr;
+		Yi = 2.0 * Xi * Yi + ci;
+		Xi = temp;
 		i++;
 	}
 	return i;
@@ -50,50 +51,37 @@ int main()
 	for (int pixelY = 0; pixelY < image.height(); pixelY++)
 	{
 		// TODO: Map the y coordinate into the range minY to maxY
-		//double y0 = (pixelY / image.height()) * (maxY - minY) + minY;
+		double y0 = (pixelY / image.height()) * (maxY - minY) + minY;
 		
 
 		for (int pixelX = 0; pixelX < image.width(); pixelX++)
 		{
 			// TODO: Map the x coordinate into the range minX to maxX
-			//double x0 = (pixelX / image.width()) * (maxX - minX) + minX;
+			double x0 = (pixelX / image.width()) * (maxX - minX) + minX;
 
 			// TODO: implement the algorithm to colour a single pixel (x0, y0) of the Mandelbrot set fractal
 
-			/*Xi = (Xi * Xi) - (Yi * Yi) + pixelX;
-			Yi = (2 * Xi * Yi) + pixelY;
-				
-		    double Xi = Xi + 1 + (x0 * x0) - (y0 * y0) + pixelX;
-		    double Yi = Yi + 1 + (2 * x0 * y0) + pixelY;
-			*/
+			// Find the real and imaginary values for each pixel using the 
+			double cReal = realValue(pixelX, image.width(), minX, maxX);
+			double cImaginary = ImaginaryValue(pixelY, image.height(), minY, maxY);
 
-			//pixelX = (pixelX * pixelX) - (pixelY * pixelY) + pixelX;
-
-			//Find the real and imaginary values for each pixel
-			double cr = realValue(pixelX, image.width(), minX, maxX);
-			double ci = ImaginaryValue(pixelY, image.height(), minY, maxY);
-
-			//Get the mandelbrot value using the real and imagnary values
-			int color = FindValue(cr, ci, maxIters);
+			// Get the mandelbrot value using the real and imagnary values
+			int color = FindValue(cReal, cImaginary, maxIters);
 			
-			
-			int red = color + color / 2;
-			int green = color - color / 2;
-			int blue = color / 2;
+			int red = color;
+			int green = color;
+			int blue = color;
 			Colour colour = { red, green, blue };
-			//std::cout << red << green << blue << std::endl;
-				
 
 			// Write the pixel
 			image(pixelX, pixelY, 0, 0) = colour.r;
 			image(pixelX, pixelY, 0, 1) = colour.g;
 			image(pixelX, pixelY, 0, 2) = colour.b;
-				
 			}
 		
 
 		// Uncomment this line to redisplay the image after each row is generated
-		display.display(image);
+		//display.display(image);
 	}
 
 	// Display the complete image
