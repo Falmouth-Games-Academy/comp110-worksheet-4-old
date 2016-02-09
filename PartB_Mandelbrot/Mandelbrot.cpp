@@ -21,41 +21,69 @@ int main()
 	const double minX = -2, maxX = 1, minY = -1.5, maxY = 1.5;
 
 	// Generate the image
-	for (int pixelY = 0; pixelY < image.height(); pixelY++)
+	for (double pixelY = 0; pixelY < image.height(); pixelY++)
 	{
 		// TODO: Map the y coordinate into the range minY to maxY
 		//double y0 =
-		int y = (pixelY / image.width) * (maxY - minY) + minY;
+		double y0 = (pixelY / image.height()) * (maxY - minY) + minY;
 
-		for (int pixelX = 0; pixelX < image.width(); pixelX++)
+		for (double pixelX = 0; pixelX < image.width(); pixelX++)
 		{
 			// TODO: Map the x coordinate into the range minX to maxX
 			//double x0 =
-
-			// Map the x coordinate to the x range
-			int x = (pixelX / image.width) * (maxX - minX) + minX;
-
+			double x0 = (pixelX / image.width()) * (maxX - minX) + minX;
 
 			// TODO: implement the algorithm to colour a single pixel (x0, y0) of the Mandelbrot set fractal
-			int xColour = 0, yColour = 0, xi = 0, yi = 0;
-			for (double iteration = 0; iteration <= maxIters; iteration++)
+			double x = 0, y = 0;
+			int iteration = 0;
+			while (x*x + y*y <= 4 && iteration < maxIters)
 			{
-				xi = (xi * xi) - (yi * yi) + x;
-				yi = (2 * xi * yi) + y;
-				if ((xi * xi) + (yi * yi) >= 4 && (xi * xi) + (yi * yi) <= 255)
+				double colourX = x * x - y * y + x0;
+				double colourY = 2 * x * y + y0;
+				x = colourX;
+				y = colourY;
+				iteration++;
+			}
+			int red;
+			int green;
+			int blue;
+			if (iteration < maxIters)
+			{
+				red = 0;
+				green = iteration;
+				blue = iteration;
+			}
+			else
+			{
+				red = 0;
+				green = 0;
+				blue = 0;
+			}
+			//std::cout << x << " " << y << std::endl;
+			Colour colour = { red, green, blue };
+			
+			/*int xColour;
+			int yColour;
+			int xi = 0, yi = 0;
+			for (int iteration = 0; iteration <= maxIters; iteration++)
+			{
+				xColour = x0;
+				yColour = y0;
+				//xColour = (xi * xi) - (yi * yi) + x0;
+				//yColour = (2 * xi * yi) + y0;
+				if ((xi * xi) + (yi * yi) >= 4)
 				{
-					xColour = xi;
-					yColour = yi;
 					break;
 				}
-				else 
+				if (iteration + 1 >= maxIters)
 				{
 					xColour = 0;
 					yColour = 0;
+					break;
 				}
-			}
+			}*/
 
-			Colour colour = { xColour, yColour, 0 };
+			//std::cout << xi << " " << yi << " " << (xi * xi) + (yi * yi) << std::endl;
 
 			// Write the pixel
 			image(pixelX, pixelY, 0, 0) = colour.r;
