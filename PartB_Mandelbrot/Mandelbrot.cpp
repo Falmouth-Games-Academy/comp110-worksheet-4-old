@@ -30,7 +30,8 @@ int main()
 		{
 			// TODO: Map the x coordinate into the range minX to maxX
 			double x0 = (pixelX/image.width()) * (maxX - minX) + minX;
-			int i = 0;
+			
+			int i = 0; //For use in the while loop
 			double currentX = x0;
 			double currentY = y0;
 			
@@ -46,11 +47,16 @@ int main()
 			}
 			
 			//Colour colour = { 255,0,0 };
-			// TODO: implement the algorithm to colour a single pixel (x0, y0) of the Mandelbrot set fractal
+			Colour colour;
+			if (i < maxIters)
+			{
+				colour = palette[i];
+			}
+			else
+			{
+				colour = { 255,0,0 };
+			}
 			
-			Colour colour = palette[i];
-
-
 			// Write the pixel
 			image(pixelX, pixelY, 0, 0) = colour.r;
 			image(pixelX, pixelY, 0, 1) = colour.g;
