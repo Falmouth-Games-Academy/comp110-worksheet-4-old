@@ -62,29 +62,6 @@ int main()
 			//std::cout << x << " " << y << std::endl;
 			Colour colour = { red, green, blue };
 			
-			/*int xColour;
-			int yColour;
-			int xi = 0, yi = 0;
-			for (int iteration = 0; iteration <= maxIters; iteration++)
-			{
-				xColour = x0;
-				yColour = y0;
-				//xColour = (xi * xi) - (yi * yi) + x0;
-				//yColour = (2 * xi * yi) + y0;
-				if ((xi * xi) + (yi * yi) >= 4)
-				{
-					break;
-				}
-				if (iteration + 1 >= maxIters)
-				{
-					xColour = 0;
-					yColour = 0;
-					break;
-				}
-			}*/
-
-			//std::cout << xi << " " << yi << " " << (xi * xi) + (yi * yi) << std::endl;
-
 			// Write the pixel
 			image(pixelX, pixelY, 0, 0) = colour.r;
 			image(pixelX, pixelY, 0, 1) = colour.g;
