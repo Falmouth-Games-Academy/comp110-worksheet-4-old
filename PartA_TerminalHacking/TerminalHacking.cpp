@@ -5,7 +5,7 @@
 #include "WordList.h"
 
 const int wordLength = 5;
-const int numberOfWords = 15;
+const int numberOfWords = 5;
 
 // Get input from the user and check it is valid..
 // ..then convert the letters to uppercase.
@@ -93,7 +93,7 @@ int main()
 		if (inputWord == secret)
 		{
 			std::cout << "CORRECT!" << std::endl;
-			return 0;
+			return 0;     //end the game loop when the game ends
 		}
 
 		else
@@ -115,8 +115,6 @@ int main()
 			std::cout << "likeness = " << likeness << std::endl;
 		}
 	}
-	
-
     return 0;
 }
 
