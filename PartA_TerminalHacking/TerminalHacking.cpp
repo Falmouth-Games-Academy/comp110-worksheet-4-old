@@ -10,7 +10,7 @@ const int numberOfWords = 15;
 const int optionsLikeness = 1;
 
 bool checkGuess(std::string wordGuess, std::set<std::string> options)
-{//Checks to see if the users guess is in the list of possible options
+{// Checks to see if the users guess is in the list of possible options
 	bool validGuess = false;
 	for each (std::string word in options)
 	{
@@ -23,25 +23,25 @@ bool checkGuess(std::string wordGuess, std::set<std::string> options)
 			validGuess = true;
 			return validGuess;			
 		}
-	}//End of for each
+	}// End of for each
 	return validGuess;
 }
 
 std::string getWord(std::set<std::string> options)
-{ //Asks the user to enter a word and saves it to the varaible wordGuess, if no word is entered it will ask for one
+{ // Asks the user to enter a word and saves it to the varaible wordGuess, if no word is entered it will ask for one
 	std::string wordGuess;
 	bool valid = false;
 
 	while (wordGuess.empty() == true || wordGuess.length() != 5 || valid == false)
-	{// While wordGuess is empty or isn't 5 characters in length 
+	{		// While wordGuess is empty or isn't 5 characters in length 
 			std::cout << "Enter a word: ";
 			std::getline(std::cin, wordGuess);
 			transform(wordGuess.begin(), wordGuess.end(), wordGuess.begin(), toupper);
 			valid = checkGuess(wordGuess, options);
-	}//End while
+	}// End while
 	
 	return wordGuess;
-}//End getWord
+}// End getWord
 
 
 int getLikeness(std::string  wordGuess, std::string  secretWord)
@@ -56,7 +56,7 @@ int getLikeness(std::string  wordGuess, std::string  secretWord)
 		
 	}//End of for loop
 	return likenessResult;
-} //end of function
+} // End of function
 
 
 int main()
@@ -86,8 +86,8 @@ int main()
 		if (wordLikeness >= optionsLikeness)
 		{
 			options.insert(word);
-		}
-	}
+		} //End of if statement
+	} //End of while loop
 
 	// Display all words
 	for each (std::string word in options)
@@ -112,19 +112,19 @@ int main()
 		{
 			std::cout << "Access granted. The password was "<< secret << std::endl;
 			break;
-		}
+		} // End of if statement
 		
 		else if (lives == 0)
 		{
 			std::cout << lives << " lives left. Acces denied." << std::endl;
 			break;
-		}
+		} // End of else if
 		else if (lives > 0)
 		{
 			int likeness = getLikeness(guessWord, secret);
 			std::cout << likeness << "  correct. Please try again." << std::endl;
 			lives--;
-		}
+		} // End of else
 			
 	}//End of while loop
 
