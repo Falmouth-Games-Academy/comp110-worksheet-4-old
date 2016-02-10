@@ -21,6 +21,7 @@ void Fractal::generate(CImg<unsigned char> &image)
 		{
 			double x0 = (double(pixelX) / image.width()) * (maxX - minX) + minX;
 
+			// Get the number of iterations needed to determine if it's in the set
 			int iterations = getIterations(x0, y0, maxIters);
 
 			Colour colour;
@@ -47,7 +48,7 @@ int Mandelbrot::getIterations(double x, double y, int maxIters)
 
 	while (x*x + y*y < 4 && i < maxIters)
 	{
-		double nextX = pow(x, 2) - pow(y, 2) + cX;
+		double nextX = x*x - y*y + cX;
 		double nextY = (2 * x * y) + cY;
 
 		// Used for checking this iteration and calculating the next
@@ -64,12 +65,14 @@ int Mandelbrot::getIterations(double x, double y, int maxIters)
 
 int Julia::getIterations(double x, double y, int maxIters)
 {
+	const double cX = 0.279;
+	const double cY = 0;
 	int i = 0;
 
 	while (x*x + y*y < 4 && i < maxIters)
 	{
-		double nextX = pow(x, 2) - pow(y, 2) + 0.279;
-		double nextY = (2 * x * y);
+		double nextX = x*x - y*y + cX;
+		double nextY = (2 * x * y) + cY;
 
 		// Used for checking this iteration and calculating the next
 		x = nextX;
