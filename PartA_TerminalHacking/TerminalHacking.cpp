@@ -17,6 +17,7 @@ int getSimilarity(std::string guessedWord, std::string secretWord)
 		{
 			similarity++;
 		}
+
 	}
 	return similarity;
 }
@@ -79,8 +80,11 @@ int main()
 		
 		//Pull in the similarity function to check for similar characters
 		int similarity = getSimilarity(guess, secret);
+		
 		std::cout << "You Entered:  " << guess << std::endl;
+		
 		std::cout << "With a Similarity of: " << similarity << std::endl;
+		
 		attempts--;
 		std::cout << "You have " << attempts << " Attempts left" << std::endl;
 
@@ -93,6 +97,7 @@ int main()
 				std::cin.ignore();
 				bool valid = true;
 			}
+
 		}
 			if (attempts <= 0)
 			{
@@ -100,7 +105,7 @@ int main()
 				std::cin.ignore();
 				break;
 			}
+
 	}
 	// TODO: implement the rest of the game
-
 }
