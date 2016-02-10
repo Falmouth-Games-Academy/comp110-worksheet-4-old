@@ -35,54 +35,54 @@ int main()
 	std::vector<Colour> palette = getRainbow(maxIters);
 
 	const double minX = -2, maxX = 1, minY = -1.5, maxY = 1.5;
+	int black = 0x000000, white = 0xFFFFFF;
 
+	/*
+	for (int pixelX = 0; pixelX < image.height(); pixelX++)
+	{
+
+	for (int pixelY = 0; pixelY < image.width(); pixelY)
+	{
+	*/
+	//double cr = (pixelY - image.width() / 2.0) * 4.0 / image.width();
+	//double ci = (pixelX - image.height() / 2.0) * 4.0 / image.width();
+	
 	// Generate the image
 	for (double pixelY = 0; pixelY < image.height(); pixelY++)
 	{
 		// TODO: Map the y coordinate into the range minY to maxY
-		//double y0 = (double(pixelY) / image.height()) + minY;
+		double y0 = (pixelY / image.height()) * (maxY - minY) + minY;
 
-		int imageHeight = image.height();
-
-		double imaginaryValue(double pixelY, double imageHeight, double minI, double maxI);
-		{
-			return pixelY * ((maxY - minY) / image.height()) + minY;
-		}
-
-		for (int pixelX = 0; pixelX < image.width(); pixelX++)
+		for (double pixelX = 0; pixelX < image.width(); pixelX++)
 		{
 			// TODO: Map the x coordinate into the range minX to maxX
-			//double x0 = (double(pixelX) / image.width()) + minX;
-
-			int imageWidth = image.width();
-
-			double realValue(double pixelX, double imageWidth, double minX, double maxX);
-			{
-				double range = maxX - minX;
-				return pixelX * (range / imageWidth) + minX;
-			}
-
-			double cr = realValue(pixelX, imageWidth, minX, maxX);
-			double ci = imaginaryValue(pixelY, imageHeight, minY, maxY);
-
-			/*
-			int i = getMandelBrot(cr, ci, maxIters);
-
-			int r = (i % 256);
-			int g = (i % 256);
-			int b = (i % 256);
-			*/
+			double x0 = (double(pixelX) / image.width()) * (maxX - minX) + minX;
 
 			// TODO: implement the algorithm to colour a single pixel (x0, y0) of the Mandelbrot set fractal
-			Colour colour = { 0,0,0 };
+			double x = 0, y = 0;
 
-			int i = getMandelBrot(cr, ci, maxIters);
-			Colour colour = palette[i];
+			int i = 0;
+			while (pow(x, 2) + pow(y, 2) <= 4 && i < maxIters)
+			{
+				double x_new = pow(x, 2) - pow(y, 2) + y0;
+				y = 2 * x*y + x0;
+				x = x_new;
+				i++;
+			} 
+			
+			Colour colour;
+
+			if (i < maxIters) colour = palette[i]; //colour = { static_cast<unsigned char>(pixelY), static_cast<unsigned char>(pixelX), white };
+			
+			else colour = { 0,0,0 };  //colour = { static_cast<unsigned char>(pixelY), static_cast<unsigned char>(pixelX), black };
 
 			// Write the pixel
 			image(pixelX, pixelY, 0, 0) = colour.r;
 			image(pixelX, pixelY, 0, 1) = colour.g;
 			image(pixelX, pixelY, 0, 2) = colour.b;
+				//}
+			//}
+
 		}
 
 		// Uncomment this line to redisplay the image after each row is generated
