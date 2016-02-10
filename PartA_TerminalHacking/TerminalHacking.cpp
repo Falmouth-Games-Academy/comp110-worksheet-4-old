@@ -7,8 +7,10 @@
 const int wordLength = 5;
 const int numberOfWords = 5;
 
-// Get input from the user and check it is valid..
-// ..then convert the letters to uppercase.
+/*
+Get input from the user and check it is valid..
+..then if it is convert each letter to uppercase and return the word.
+*/
 std::string getWord()
 {
 	std::cout << "Enter a word: ";
@@ -36,7 +38,6 @@ int getLikeness(std::string inputWord, std::string secretWord)
 {
 	int likeness = 0;
 	
-
 	for (int i = 0; i < secretWord.length(); i++)
 	{
 		if (secretWord[i] == inputWord[i])
@@ -82,7 +83,6 @@ int main()
 	{
 		std::cout << word << std::endl;
 	}
-	// TODO: implement the rest of the game
 
 	// Main game loop
 	while (true) 
@@ -93,9 +93,10 @@ int main()
 		if (inputWord == secret)
 		{
 			std::cout << "CORRECT!" << std::endl;
-			return 0;     //end the game loop when the game ends
+			return 0;     //end the game loop when the asnwer is correct
 		}
 
+		
 		else
 		{
 			std::cout << "Incorrect Password, Please Try Again." << std::endl;
@@ -108,12 +109,10 @@ int main()
 			}
 		}
 
-		// LIKENESS
-		for each(std::string word in options)
-		{
-			int likeness = getLikeness(inputWord, secret);
-			std::cout << "likeness = " << likeness << std::endl;
-		}
+	// Print the likeness
+	int likeness = getLikeness(inputWord, secret);
+	std::cout << "likeness = " << likeness << std::endl;
+		
 	}
     return 0;
 }
