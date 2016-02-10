@@ -3,8 +3,7 @@
 
 #include "stdafx.h"
 #include "colours.h"
-
-
+#include "fractal.h"
 
 
 /*void generate(CImg<unsigned char> &image)
@@ -110,6 +109,30 @@ void generate(CImg<unsigned char> &image)
 }
 
 
+Fractal* getFractal()
+{
+	while (true)
+	{
+		std::cout << "\nWould you like to generate a Mandelbrot Fractal or Julia Fractal? (M / J)" << std::endl;
+		std::string choice;
+		std::getline(std::cin, choice);
+
+		if (choice == "M")
+		{
+			Fractal* fractal = new Mandelbrot;
+			return fractal;
+		}
+		else if (choice == "J")
+		{
+			Fractal* fractal = new Julia;
+			return fractal;
+		}
+		else
+			std::cout << "Please enter 'M' or 'J'" << std::endl;
+	}
+}
+
+
 int main()
 {
 	// Initialise the image
@@ -118,14 +141,16 @@ int main()
 	// Display the image
 	CImgDisplay display(image, "Mandelbrot Set");
 
+	// Get the user's choice of fractal
+	Fractal* fractal = getFractal();
+
 	// Generate the image
-	generate(image);
+	(*fractal).generate(image);
 
 	// Display the complete image
 	display.display(image);
 
-	// Uncomment this line to save the image to disk
-	//image.save_bmp("mandelbrot.bmp");
+	image.save_bmp("mandelbrot.bmp");
 
 	// Wait for the window to be closed
 	while (!display.is_closed())
