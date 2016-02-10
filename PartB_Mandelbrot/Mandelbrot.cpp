@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "colours.h"
 
+
 int main()
 {
 	// Initialise the image
@@ -18,37 +19,57 @@ int main()
 	// Initialise the colour palette
 	std::vector<Colour> palette = getRainbow(maxIters);
 
-	const double minX = -2, maxX = 1, minY = -1.5, maxY = 1.5;
+	// Set min and max values for the mandelbrot set
+	double minX = -2, maxX = 1, minY = -1.5, maxY = 1.5;
 
-	// Generate the image
-	for (int pixelY = 0; pixelY < image.height(); pixelY++)
-	{
-		// TODO: Map the y coordinate into the range minY to maxY
-		//double y0 =
-
-		for (int pixelX = 0; pixelX < image.width(); pixelX++)
+	
+		// Generate the image
+		for (int pixelY = 0; pixelY < image.height(); pixelY++)
 		{
-			// TODO: Map the x coordinate into the range minX to maxX
-			//double x0 =
+			double y0 = ((maxY - minY) / image.width()) * pixelY + minY;
+			for (int pixelX = 0; pixelX < image.width(); pixelX++)
+			{
+				double x0 = ((maxX - minX) / image.width()) * pixelX + minX;
 
-			// TODO: implement the algorithm to colour a single pixel (x0, y0) of the Mandelbrot set fractal
-			Colour colour = { 0,0,0 };
+				//Initialize variables for the algorithm
+				int i = 0;
+				double Xi = 0.0;
+				double Yi = 0.0;
+				
+				// Find the value for the mandelbrot set..
+				// ..using the escape time algorithm
+				while ((Xi * Xi) + (Yi * Yi) <= 4.0 && i < maxIters)
+				{
+					double temp = Xi * Xi - Yi * Yi + x0;
+					Yi = 2.0 * Xi * Yi + y0;
+					Xi = temp;
+					i++;
+				}
+				
+				// Writes the pixel colour with the value of i
+				if (i < maxIters)
+				{
+					
+					int red = i;
+					int green = i * 2;  // multiplying by 2 to give it a colour
+					int blue = i * 2;
 
-			// Write the pixel
-			image(pixelX, pixelY, 0, 0) = colour.r;
-			image(pixelX, pixelY, 0, 1) = colour.g;
-			image(pixelX, pixelY, 0, 2) = colour.b;
+					// TODO: Use the colour palette to draw the correct colours
+					Colour colour = { red, green, blue };
+
+					image(pixelX, pixelY, 0, 0) = colour.r;
+					image(pixelX, pixelY, 0, 1) = colour.g;
+					image(pixelX, pixelY, 0, 2) = colour.b;
+				}
+			}
 		}
-
-		// Uncomment this line to redisplay the image after each row is generated
-		//display.display(image);
-	}
 
 	// Display the complete image
 	display.display(image);
+	std::cout << "Image Render Complete." << std::endl;
 
-	// Uncomment this line to save the image to disk
-	//image.save_bmp("mandelbrot.bmp");
+	// Save the image to disk
+	image.save_bmp("mandelbrot.bmp");
 
 	// Wait for the window to be closed
 	while (!display.is_closed())
