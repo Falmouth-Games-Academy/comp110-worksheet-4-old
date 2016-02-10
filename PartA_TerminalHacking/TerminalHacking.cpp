@@ -6,7 +6,8 @@
 
 const int wordLength = 5;
 const int numberOfWords = 15;
-const int likeness = 1;  
+// Changing the value of optionsLikeness changes how many letters the possible words have in common 
+const int optionsLikeness = 1;
 
 bool checkGuess(std::string wordGuess, std::set<std::string> options)
 {//Checks to see if the users guess is in the list of possible options
@@ -20,8 +21,6 @@ bool checkGuess(std::string wordGuess, std::set<std::string> options)
 		else if (wordGuess == word)
 		{
 			validGuess = true;
-			std::cout << "valid guess" << std::endl;
-			break;
 			return validGuess;			
 		}
 	}//End of for each
@@ -72,7 +71,6 @@ int main()
 	// Choose secret word
 	std::string secret = words.getRandomWord();
 	std::cout << secret << std::endl;
-
 	// Create a set to hold the list of options
 	std::set<std::string> options;
 
@@ -85,7 +83,7 @@ int main()
 	{
 		std::string word = words.getRandomWord();
 		int wordLikeness = getLikeness(word, secret);
-		if (wordLikeness > likeness)
+		if (wordLikeness >= optionsLikeness)
 		{
 			options.insert(word);
 		}
@@ -98,7 +96,7 @@ int main()
 	}
 
 	//Sets lives to equal 4
-	int lives = 10;
+	int lives = 4;
 	bool valid = false;
 	std::string guessWord;
 	
@@ -112,7 +110,7 @@ int main()
 
 		if (guessWord == secret)
 		{
-			std::cout << "Access Granted. The password was "<< secret << std::endl;
+			std::cout << "Access granted. The password was "<< secret << std::endl;
 			break;
 		}
 		
@@ -127,7 +125,6 @@ int main()
 			std::cout << likeness << "  correct. Please try again." << std::endl;
 			lives--;
 		}
-		
 			
 	}//End of while loop
 
@@ -136,4 +133,3 @@ int main()
 	system("pause"); //Window doesn't close until a key is pressed
 	return 0;
 }
-
