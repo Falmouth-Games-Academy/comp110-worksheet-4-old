@@ -7,7 +7,7 @@ Requirement | Done
  A2 | X
  A3 (Stretch)| X
  B1 | X
- B2 |
+ B2 | X
  B3 (Stretch)|
  
 ### Flow chart for part A3:  
