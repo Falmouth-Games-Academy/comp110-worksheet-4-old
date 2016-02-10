@@ -23,19 +23,19 @@ int main()
 	// Generate the image
 	for (int pixelY = 0; pixelY < image.height(); pixelY++)
 	{
-		// TODO: Map the y coordinate into the range minY to maxY
-		double y0 = (pixelY/image.height()) * (maxY - minY) + minY;
+		// Maps the y coordinate into the range minY to maxY
+		double y0 = (static_cast<double>(pixelY)/static_cast<double>(image.height())) * (maxY - minY) + minY;
 
 		for (int pixelX = 0; pixelX < image.width(); pixelX++)
 		{
-			// TODO: Map the x coordinate into the range minX to maxX
-			double x0 = (pixelX/image.width()) * (maxX - minX) + minX;
-			
+			// Maps the x coordinate into the range minX to maxX
+			double x0 = (static_cast<double>(pixelX)/ static_cast<double>(image.width())) * (maxX - minX) + minX;
 			int i = 0; //For use in the while loop
 			double currentX = x0;
 			double currentY = y0;
+			Colour colour;
 			
-			while (i < maxIters && (std::pow(currentX, 2) + std::pow(currentY, 2))>=4)
+			while (i < maxIters && (std::pow(currentX, 2) + std::pow(currentY, 2))<=4)
 			{
 				double nextX = std::pow(currentX, 2) - std::pow(currentY, 2) +x0;
 				double nextY = (2 * currentX * currentY) + y0;
@@ -46,15 +46,15 @@ int main()
 				i++;
 			}
 			
-			//Colour colour = { 255,0,0 };
-			Colour colour;
+			// Select the pixel colour
 			if (i < maxIters)
 			{
 				colour = palette[i];
 			}
 			else
 			{
-				colour = { 255,0,0 };
+				colour = { 0,0,0 };
+				//black
 			}
 			
 			// Write the pixel
