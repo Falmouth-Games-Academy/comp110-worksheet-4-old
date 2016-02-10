@@ -5,7 +5,32 @@
 #include "WordList.h"
 
 const int wordLength = 5;
-const int numberOfWords = 15;
+const int numberOfWords = 5;
+
+std::string getSecretWord()
+{
+	while (true)
+	{
+		std::cout << "Guess a word:";
+		std::string line;
+		std::getline(std::cin, line);
+
+		if (line.length() == wordLength && isalpha(line[0]))
+		{
+			
+			for (int i = 0; i < line.length(); i++)
+			{
+				line[i] = toupper(line[i]);
+			}
+			return line;
+		}
+
+		else
+		{
+			std::cout << "Thats not the word!" << std::endl;
+		}
+	}
+}
 
 int main()
 {
@@ -39,7 +64,33 @@ int main()
 		std::cout << word << std::endl;
 	}
 
-	// TODO: implement the rest of the game
+	// set lives at 4
+	int lives = 4;
+
+	while (true)
+	{
+		std::cout << "You have " << lives << " lives left" << std::endl;
+
+		//add bit at top for getWord
+		std::string SecretWord = getSecretWord();
+		std::cout << "You guessed" << SecretWord << std::endl;
+
+		if (SecretWord == secret)
+		{
+			std::cout << "You Guessed The Word Congradulations!" << std::endl;
+			return 0;
+		}
+		else
+		{
+			lives--;
+			std::cout << "Wrong Try Again" << std::endl;
+		}
+	}
+
+
+
+
+
 
     return 0;
 }
