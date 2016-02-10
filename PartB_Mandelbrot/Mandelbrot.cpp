@@ -30,16 +30,18 @@ int main()
 		{
 			// Maps the x coordinate into the range minX to maxX
 			double x0 = (static_cast<double>(pixelX)/ static_cast<double>(image.width())) * (maxX - minX) + minX;
-			int i = 0; //For use in the while loop
+			int i = 0; // Used to count iterations of the while loop and the pixel colour
 			double currentX = x0;
 			double currentY = y0;
 			Colour colour;
 			
-			while (i < maxIters && (std::pow(currentX, 2) + std::pow(currentY, 2))<=4)
+			while (i < maxIters && (std::pow(currentX, 2) + std::pow(currentY, 2)) <= 4)
 			{
-				double nextX = std::pow(currentX, 2) - std::pow(currentY, 2) +x0;
+				// Calculate the next X and Y values
+				double nextX = std::pow(currentX, 2) - std::pow(currentY, 2) + x0;
 				double nextY = (2 * currentX * currentY) + y0;
 
+				//Set the currentX and currentY values to equal the nextX and nextY
 				currentX = nextX;
 				currentY = nextY;
 				
@@ -50,11 +52,12 @@ int main()
 			if (i < maxIters)
 			{
 				colour = palette[i];
+				// If the number of iterations (i) is below maxIters (200) set the pixel colour to the current value of i
 			}
 			else
 			{
 				colour = { 0,0,0 };
-				//black
+				// If the numer of iteration (i) is equal to or greater than maxIters set the pixel colour to black
 			}
 			
 			// Write the pixel
