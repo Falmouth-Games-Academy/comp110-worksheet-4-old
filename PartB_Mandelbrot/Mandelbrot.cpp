@@ -44,6 +44,8 @@ int main()
 	// Generate the image
 	(*fractal).generate(image);
 
+	delete fractal;
+
 	// Display the complete image
 	display.display(image);
 

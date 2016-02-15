@@ -12,55 +12,12 @@ Julia::Julia()
 	minX = -1.5, maxX = 1.5, minY = -1.5, maxY = 1.5;
 }
 
-double Mandelbrot::getMinX()
-{
-	return minX;
-}
-
-double Mandelbrot::getMaxX()
-{
-	return maxX;
-}
-
-double Mandelbrot::getMinY()
-{
-	return minY;
-}
-
-double Mandelbrot::getMaxY()
-{
-	return maxY;
-}
-
-double Julia::getMinX()
-{
-	return minX;
-}
-
-double Julia::getMaxX()
-{
-	return maxX;
-}
-
-double Julia::getMinY()
-{
-	return minY;
-}
-
-double Julia::getMaxY()
-{
-	return maxY;
-}
-
-
 void Fractal::generate(CImg<unsigned char> &image)
 {
 	const int maxIters = 200;
 
 	// Initialise the colour palette
 	std::vector<Colour> palette = getRainbow(maxIters);
-
-	const double minX = getMinX(), maxX = getMaxX(), minY = getMinY(), maxY = getMaxY();
 
 	// Generate the image
 	for (int pixelY = 0; pixelY < image.height(); pixelY++)
