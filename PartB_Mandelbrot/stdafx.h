@@ -15,6 +15,8 @@
 // TODO: reference additional headers your program requires here
 #include <iostream>
 #include <vector>
+#include <math.h>
+#include <string>
 
 #include "CImg/CImg.h"
 using namespace cimg_library;
