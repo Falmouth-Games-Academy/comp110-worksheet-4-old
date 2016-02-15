@@ -2,6 +2,56 @@
 #include "fractal.h"
 #include "colours.h"
 
+Mandelbrot::Mandelbrot()
+{
+	minX = -2, maxX = 1, minY = -1.5, maxY = 1.5;
+}
+
+Julia::Julia()
+{
+	minX = -1.5, maxX = 1.5, minY = -1.5, maxY = 1.5;
+}
+
+double Mandelbrot::getMinX()
+{
+	return minX;
+}
+
+double Mandelbrot::getMaxX()
+{
+	return maxX;
+}
+
+double Mandelbrot::getMinY()
+{
+	return minY;
+}
+
+double Mandelbrot::getMaxY()
+{
+	return maxY;
+}
+
+double Julia::getMinX()
+{
+	return minX;
+}
+
+double Julia::getMaxX()
+{
+	return maxX;
+}
+
+double Julia::getMinY()
+{
+	return minY;
+}
+
+double Julia::getMaxY()
+{
+	return maxY;
+}
+
 
 void Fractal::generate(CImg<unsigned char> &image)
 {
@@ -10,16 +60,16 @@ void Fractal::generate(CImg<unsigned char> &image)
 	// Initialise the colour palette
 	std::vector<Colour> palette = getRainbow(maxIters);
 
-	const double minX = -1.5, maxX = 1.5, minY = -1.5, maxY = 1.5;
+	const double minX = getMinX(), maxX = getMaxX(), minY = getMinY(), maxY = getMaxY();
 
 	// Generate the image
 	for (int pixelY = 0; pixelY < image.height(); pixelY++)
 	{
-		double y0 = (double(pixelY) / image.height()) * (maxY - minY) + minY;
+		double y0 = (static_cast<double>(pixelY) / image.height()) * (maxY - minY) + minY;
 
 		for (int pixelX = 0; pixelX < image.width(); pixelX++)
 		{
-			double x0 = (double(pixelX) / image.width()) * (maxX - minX) + minX;
+			double x0 = (static_cast<double>(pixelX) / image.width()) * (maxX - minX) + minX;
 
 			// Get the number of iterations needed to determine if it's in the set
 			int iterations = getIterations(x0, y0, maxIters);

@@ -47,7 +47,7 @@ int main()
 	// Display the complete image
 	display.display(image);
 
-	image.save_bmp("julia.bmp");
+	image.save_bmp("mandelbrot.bmp");
 
 	// Wait for the window to be closed
 	while (!display.is_closed())
