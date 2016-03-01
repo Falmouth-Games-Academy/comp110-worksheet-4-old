@@ -23,7 +23,7 @@ bool checkGuess(std::string wordGuess, std::set<std::string> options)
 			validGuess = true;
 			return validGuess;			
 		}
-	}// End of for each
+	}// End of for each word in options
 	return validGuess;
 }
 
@@ -33,11 +33,11 @@ std::string getWord(std::set<std::string> options)
 	bool valid = false;
 
 	while (wordGuess.empty() == true || wordGuess.length() != 5 || valid == false)
-	{		// While wordGuess is empty or isn't 5 characters in length 
-			std::cout << "Enter a word: ";
-			std::getline(std::cin, wordGuess);
-			transform(wordGuess.begin(), wordGuess.end(), wordGuess.begin(), toupper);
-			valid = checkGuess(wordGuess, options);
+	{	// While wordGuess is empty or isn't 5 characters in length 
+		std::cout << "Enter a word: ";
+		std::getline(std::cin, wordGuess);
+		transform(wordGuess.begin(), wordGuess.end(), wordGuess.begin(), toupper);
+		valid = checkGuess(wordGuess, options);
 	}// End while
 	
 	return wordGuess;
@@ -49,10 +49,10 @@ int getLikeness(std::string  wordGuess, std::string  secretWord)
 	int likenessResult = 0;
 	for (int i = 0; i < secretWord.length(); i++)
 	{
-			if (secretWord[i] == wordGuess[i])
-			{
-				likenessResult++;
-			} //End of if statement
+		if (secretWord[i] == wordGuess[i])
+		{
+			likenessResult++;
+		} //End of if statement
 		
 	}//End of for loop
 	return likenessResult;
@@ -70,7 +70,7 @@ int main()
 
 	// Choose secret word
 	std::string secret = words.getRandomWord();
-	std::cout << secret << std::endl;
+
 	// Create a set to hold the list of options
 	std::set<std::string> options;
 
@@ -99,21 +99,21 @@ int main()
 	int lives = 4;
 	bool valid = false;
 	std::string guessWord;
-	
-	
+
+
 	while (true)
 	{
 		std::cout << "You have " << lives << " lives remaining." << std::endl;
-		
-		guessWord  = getWord(options);
+
+		guessWord = getWord(options);
 		std::cout << guessWord << std::endl;
 
 		if (guessWord == secret)
 		{
-			std::cout << "Access granted. The password was "<< secret << std::endl;
+			std::cout << "Access granted. The password was " << secret << std::endl;
 			break;
 		} // End of if statement
-		
+
 		else if (lives == 0)
 		{
 			std::cout << lives << " lives left. Acces denied." << std::endl;
@@ -125,7 +125,7 @@ int main()
 			std::cout << likeness << "  correct. Please try again." << std::endl;
 			lives--;
 		} // End of else
-			
+
 	}//End of while loop
 
 	std::cout << "Game Over" << std::endl;
@@ -133,3 +133,4 @@ int main()
 	system("pause"); //Window doesn't close until a key is pressed
 	return 0;
 }
+
