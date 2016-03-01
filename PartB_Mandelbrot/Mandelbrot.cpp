@@ -24,22 +24,22 @@ int main()
 	for (int pixelY = 0; pixelY < image.height(); pixelY++)
 	{
 		// Maps the y coordinate into the range minY to maxY
-		double y0 = (static_cast<double>(pixelY)/static_cast<double>(image.height())) * (maxY - minY) + minY;
+		double initialY = (static_cast<double>(pixelY)/static_cast<double>(image.height())) * (maxY - minY) + minY;
 
 		for (int pixelX = 0; pixelX < image.width(); pixelX++)
 		{
 			// Maps the x coordinate into the range minX to maxX
-			double x0 = (static_cast<double>(pixelX)/ static_cast<double>(image.width())) * (maxX - minX) + minX;
+			double initialX = (static_cast<double>(pixelX)/ static_cast<double>(image.width())) * (maxX - minX) + minX;
 			int i = 0; // Used to count iterations of the while loop and the pixel colour
-			double currentX = x0;
-			double currentY = y0;
+			double currentX = initialX;
+			double currentY = initialY;
 			Colour colour;
 			
 			while (i < maxIters && (std::pow(currentX, 2) + std::pow(currentY, 2)) <= 4)
 			{
 				// Calculate the next X and Y values
-				double nextX = std::pow(currentX, 2) - std::pow(currentY, 2) + x0;
-				double nextY = (2 * currentX * currentY) + y0;
+				double nextX = std::pow(currentX, 2) - std::pow(currentY, 2) + initialX;
+				double nextY = (2 * currentX * currentY) + initialY;
 
 				//Set the currentX and currentY values to equal the nextX and nextY
 				currentX = nextX;
