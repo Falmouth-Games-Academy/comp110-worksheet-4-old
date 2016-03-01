@@ -6,6 +6,58 @@
 
 const int wordLength = 5;
 const int numberOfWords = 15;
+// Changing the value of optionsLikeness changes how many letters the possible words have in common 
+const int optionsLikeness = 1;
+
+bool checkGuess(std::string wordGuess, std::set<std::string> options)
+{// Checks to see if the users guess is in the list of possible options
+	bool validGuess = false;
+	for each (std::string word in options)
+	{
+		if (wordGuess != word)
+		{
+			validGuess = false;
+		}
+		else if (wordGuess == word)
+		{
+			validGuess = true;
+			return validGuess;			
+		}
+	}// End of for each word in options
+	return validGuess;
+}
+
+std::string getWord(std::set<std::string> options)
+{ // Asks the user to enter a word and saves it to the varaible wordGuess, if no word is entered it will ask for one
+	std::string wordGuess;
+	bool valid = false;
+
+	while (wordGuess.empty() == true || wordGuess.length() != 5 || valid == false)
+	{	// While wordGuess is empty or isn't 5 characters in length 
+		std::cout << "Enter a word: ";
+		std::getline(std::cin, wordGuess);
+		transform(wordGuess.begin(), wordGuess.end(), wordGuess.begin(), toupper);
+		valid = checkGuess(wordGuess, options);
+	}// End while
+	
+	return wordGuess;
+}// End getWord
+
+
+int getLikeness(std::string  wordGuess, std::string  secretWord)
+{
+	int likenessResult = 0;
+	for (int i = 0; i < secretWord.length(); i++)
+	{
+		if (secretWord[i] == wordGuess[i])
+		{
+			likenessResult++;
+		} //End of if statement
+		
+	}//End of for loop
+	return likenessResult;
+} // End of function
+
 
 int main()
 {
@@ -30,8 +82,12 @@ int main()
 	while (options.size() < numberOfWords)
 	{
 		std::string word = words.getRandomWord();
-		options.insert(word);
-	}
+		int wordLikeness = getLikeness(word, secret);
+		if (wordLikeness >= optionsLikeness)
+		{
+			options.insert(word);
+		} //End of if statement
+	} //End of while loop
 
 	// Display all words
 	for each (std::string word in options)
@@ -39,8 +95,42 @@ int main()
 		std::cout << word << std::endl;
 	}
 
-	// TODO: implement the rest of the game
+	//Sets lives to equal 4
+	int lives = 4;
+	bool valid = false;
+	std::string guessWord;
 
-    return 0;
+
+	while (true)
+	{
+		std::cout << "You have " << lives << " lives remaining." << std::endl;
+
+		guessWord = getWord(options);
+		std::cout << guessWord << std::endl;
+
+		if (guessWord == secret)
+		{
+			std::cout << "Access granted. The password was " << secret << std::endl;
+			break;
+		} // End of if statement
+
+		else if (lives == 0)
+		{
+			std::cout << lives << " lives left. Acces denied." << std::endl;
+			break;
+		} // End of else if
+		else if (lives > 0)
+		{
+			int likeness = getLikeness(guessWord, secret);
+			std::cout << likeness << "  correct. Please try again." << std::endl;
+			lives--;
+		} // End of else
+
+	}//End of while loop
+
+	std::cout << "Game Over" << std::endl;
+
+	system("pause"); //Window doesn't close until a key is pressed
+	return 0;
 }
 
