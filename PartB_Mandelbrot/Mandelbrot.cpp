@@ -23,17 +23,43 @@ int main()
 	// Generate the image
 	for (int pixelY = 0; pixelY < image.height(); pixelY++)
 	{
-		// TODO: Map the y coordinate into the range minY to maxY
-		//double y0 =
+		// Maps the y coordinate into the range minY to maxY
+		double initialY = (static_cast<double>(pixelY)/static_cast<double>(image.height())) * (maxY - minY) + minY;
 
 		for (int pixelX = 0; pixelX < image.width(); pixelX++)
 		{
-			// TODO: Map the x coordinate into the range minX to maxX
-			//double x0 =
+			// Maps the x coordinate into the range minX to maxX
+			double initialX = (static_cast<double>(pixelX)/ static_cast<double>(image.width())) * (maxX - minX) + minX;
+			int i = 0; // Used to count iterations of the while loop and the pixel colour
+			double currentX = initialX;
+			double currentY = initialY;
+			Colour colour;
+			
+			while (i < maxIters && (std::pow(currentX, 2) + std::pow(currentY, 2)) <= 4)
+			{
+				// Calculate the next X and Y values
+				double nextX = std::pow(currentX, 2) - std::pow(currentY, 2) + initialX;
+				double nextY = (2 * currentX * currentY) + initialY;
 
-			// TODO: implement the algorithm to colour a single pixel (x0, y0) of the Mandelbrot set fractal
-			Colour colour = { 0,0,0 };
-
+				//Set the currentX and currentY values to equal the nextX and nextY
+				currentX = nextX;
+				currentY = nextY;
+				
+				i++;
+			}
+			
+			// Select the pixel colour
+			if (i < maxIters)
+			{
+				colour = palette[i];
+				// If the number of iterations (i) is below maxIters (200) set the pixel colour to the current value of i
+			}
+			else
+			{
+				colour = { 0,0,0 };
+				// If the numer of iteration (i) is equal to or greater than maxIters set the pixel colour to black
+			}
+			
 			// Write the pixel
 			image(pixelX, pixelY, 0, 0) = colour.r;
 			image(pixelX, pixelY, 0, 1) = colour.g;
